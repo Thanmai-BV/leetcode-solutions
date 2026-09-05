@@ -1,0 +1,35 @@
+int maxProduct(char** words, int wordsSize) {
+    int mask[wordsSize];
+    int len[wordsSize];
+
+    // Create bitmask for each word
+    for (int i = 0; i < wordsSize; i++) {
+        mask[i] = 0;
+        len[i] = 0;
+
+        for (int j = 0; words[i][j] != '\0'; j++) {
+            int bit = words[i][j] - 'a';
+            mask[i] |= (1 << bit);
+            len[i]++;
+        }
+    }
+
+    int max = 0;
+
+    // Compare every pair of words
+    for (int i = 0; i < wordsSize; i++) {
+        for (int j = i + 1; j < wordsSize; j++) {
+
+            // No common letters
+            if ((mask[i] & mask[j]) == 0) {
+                int product = len[i] * len[j];
+
+                if (product > max) {
+                    max = product;
+                }
+            }
+        }
+    }
+
+    return max;
+}
